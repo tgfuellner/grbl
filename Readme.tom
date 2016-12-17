@@ -1,3 +1,7 @@
 Aktualisieren mit orginalem Grbl:
   git fetch upstream
   git merge upstream/master
+
+Compilieren:
+  make clean
+  make grbl.hex
