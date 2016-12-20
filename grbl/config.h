@@ -345,9 +345,9 @@
 // and the voltage set by the minimum PWM for minimum rpm. This difference is 0.02V per PWM value. So, when
 // minimum PWM is at 1, only 0.02 volts separate enabled and disabled. At PWM 5, this would be 0.1V. Keep
 // in mind that you will begin to lose PWM resolution with increased minimum PWM values, since you have less
-// and less range over the total 256 PWM levels to signal different spindle speeds.
-// NOTE: Compute duty cycle at the minimum PWM by this equation: (% duty cycle)=(SPINDLE_MINIMUM_PWM/256)*100
-// #define SPINDLE_MINIMUM_PWM_VALUE 5 // Default disabled. Uncomment to enable. Must be greater than zero. Integer (1-255).
+// and less range over the total 255 PWM levels to signal different spindle speeds.
+// NOTE: Compute duty cycle at the minimum PWM by this equation: (% duty cycle)=(SPINDLE_PWM_MIN_VALUE/255)*100
+// #define SPINDLE_PWM_MIN_VALUE 5 // Default disabled. Uncomment to enable. Must be greater than zero. Integer (1-255).
 
 // By default on a 328p(Uno), Grbl combines the variable spindle PWM and the enable into one pin to help
 // preserve I/O pins. For certain setups, these may need to be separate pins. This configure option uses
@@ -453,6 +453,15 @@
 // will continue operating efficiently. Size the TX buffer around the size of a worst-case report.
 // #define RX_BUFFER_SIZE 128 // (1-254) Uncomment to override defaults in serial.h
 // #define TX_BUFFER_SIZE 100 // (1-254)
+
+// A simple software debouncing feature for hard limit switches. When enabled, the interrupt 
+// monitoring the hard limit switch pins will enable the Arduino's watchdog timer to re-check 
+// the limit pin state after a delay of about 32msec. This can help with CNC machines with 
+// problematic false triggering of their hard limit switches, but it WILL NOT fix issues with 
+// electrical interference on the signal cables from external sources. It's recommended to first
+// use shielded signal cables with their shielding connected to ground (old USB/computer cables 
+// work well and are cheap to find) and wire in a low-pass circuit into each limit pin.
+// #define ENABLE_SOFTWARE_DEBOUNCE // Default disabled. Uncomment to enable.
 
 // Configures the position after a probing cycle during Grbl's check mode. Disabled sets
 // the position to the probe target, when enabled sets the position to the start position.
